@@ -2,11 +2,13 @@ import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, Dimensions } from 'react-native';
 import pako from 'pako';
 import { Buffer } from 'buffer';
+import { useRouter } from "solito/router";
 
-const MenuComponent = ({ takeAwayName, bannerUrl, logoUrl, menu }) => {
+const MenuComponent = ({ takeAwayName, bannerUrl, logoUrl, menu, town, slugName }) => {
     const [orderType, setOrderType] = useState('delivery');
     const [activeCategory, setActiveCategory] = useState(null);
     const flatListRef = useRef(null);
+    const { push } = useRouter();
     // const [bannerUrl, setBannerUrl] = useState('');
     // const [logoUrl,setLogoUrl] = useState('')
     // const [takeAwayName,setTakeAwayName] = useState('')
@@ -14,6 +16,10 @@ const MenuComponent = ({ takeAwayName, bannerUrl, logoUrl, menu }) => {
     console.log('Menu in Frontened', menu);
     console.log('Lenght', menu.length);
     console.log('Menu id in Frontened', menu[0].subcat);
+    const aboutClickHandler = () => {
+
+        push(`/${town}/${slugName}/info`);
+    }
 
     // 🔹 Fetch API in useEffect (client-side)
     //  useEffect(() => {
@@ -96,7 +102,7 @@ const MenuComponent = ({ takeAwayName, bannerUrl, logoUrl, menu }) => {
                 {/* Row: Name + About */}
                 <View style={styles.nameRow}>
                     <Text style={styles.restaurantName}>{takeAwayName}</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={aboutClickHandler}>
                         <Text style={styles.aboutText}>ℹ️ About</Text>
                     </TouchableOpacity>
                 </View>

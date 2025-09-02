@@ -3,8 +3,8 @@ import pako from 'pako';
 import { Buffer } from 'buffer';
 import MenuComponent from '../../../Components/MenuComponent';
 
-const OrderNowScreen = ({ takeAwayName, bannerUrl, logoUrl, menu }) => {
-    return <MenuComponent takeAwayName={takeAwayName} bannerUrl={bannerUrl} logoUrl={logoUrl} menu={menu} />;
+const OrderNowScreen = ({ takeAwayName, bannerUrl, logoUrl, menu, town, slugName }) => {
+    return <MenuComponent takeAwayName={takeAwayName} bannerUrl={bannerUrl} logoUrl={logoUrl} menu={menu} town={town} slugName={slugName} />;
 };
 
 export async function getServerSideProps() {
@@ -37,7 +37,7 @@ export async function getServerSideProps() {
         }
 
         const json = await resInfo.json();
-        console.log('JSON in server', json.name);
+        console.log('JSON in server ', json.name, json?.town, json?.slug_name);
 
         // 2️⃣ Fetch Menu Data
         const resMenu = await fetch(
@@ -69,9 +69,9 @@ export async function getServerSideProps() {
         }
 
         const menuResJson = await resMenu.json();
-        console.log('menuResJson LOG', menuResJson);
-        console.log('menuResJson keys >>>>>>>', Object.keys(menuResJson));
-        console.log('menuResJson.data length >>>', menuResJson.data?.length);
+        // console.log('menuResJson LOG', menuResJson);
+        // console.log('menuResJson keys >>>>>>>', Object.keys(menuResJson));
+        // console.log('menuResJson.data length >>>', menuResJson.data?.length);
 
         const compressedBase64 = menuResJson.data[0]; // not menuResJson.data
         const compressedData = Buffer.from(compressedBase64, 'base64');
@@ -79,11 +79,13 @@ export async function getServerSideProps() {
         // const decodedJSON = JSON.parse(decodedString);
         const decodedJSON = JSON.parse(decodedString);
 
-        console.log('decodedJSON LOG >>>', decodedJSON);
+        // console.log('decodedJSON LOG >>>', decodedJSON);
 
         return {
             props: {
                 takeAwayName: json?.name,
+                town: json?.town,
+                slugName: json?.slug_name,
                 bannerUrl: json?.setting?.banner_url,
                 logoUrl: json?.setting?.logo_url,
                 menu: decodedJSON

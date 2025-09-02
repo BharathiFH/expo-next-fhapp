@@ -1,6 +1,6 @@
 import React, { } from 'react';
 import { Text, StyleSheet, View, SafeAreaView, TouchableOpacity, Image } from 'react-native';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'solito/router';
 // import { theme } from 't2sbasemodule/Utils/StyleHelper';
 // import T2SWebContainer from 't2sbasemodule/UI/CommonUI/T2SWebContainer';
 // const TakeAwayDetail = function (props) {
@@ -10,12 +10,14 @@ import { Text, StyleSheet, View, SafeAreaView, TouchableOpacity, Image } from 'r
 
 const TakeAwayDetail = (props) => {
     const { storeData } = props || {};
-
+    const { push } = useRouter();
 
     // const router = useRouter();
     // const { asPath } = router || {};
     // console.log('====buildLink', storeData, props, router, asPath);
-
+    const orderNowClickHandler = () => {
+        push(`/${storeData.town}/${storeData.slug_name}/orderNow`);
+    }
     const renderHeader = () => {
         return (
             <View style={styles.headerContainer}>
@@ -48,7 +50,7 @@ const TakeAwayDetail = (props) => {
             <View style={styles.restaurantOverview}>
                 <View style={[styles.restaurantMetrics, { justifyContent: 'space-between' }]}>
                     <Text style={styles.restaurantName}>{storeData.name}</Text>
-                    <TouchableOpacity style={styles.orderButton}>
+                    <TouchableOpacity style={styles.orderButton} onPress={orderNowClickHandler}>
                         <Text style={styles.orderButtonText}>ORDER NOW</Text>
                     </TouchableOpacity>
                 </View>
