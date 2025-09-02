@@ -1,0 +1,5 @@
+{
+    "confetti":"https://assets.foodhub.com/static/confetti.json",
+    "pullToRefresh":"https://t2s-android.s3.amazonaws.com/foodhub/Animation/Pull_to_refresh.json",
+    "goalPostAnimation": "https://assets.foodhub.com/static/goal_post_animation.json"
+}
